@@ -264,8 +264,10 @@ void UI_DisplayStatus()
             break;
 
         case 1:    // voltage
+            {
             const uint16_t voltage = (gBatteryVoltageAverage <= 999) ? gBatteryVoltageAverage : 999; // limit to 9.99V
             sprintf(str, "%u.%02u", voltage / 100, voltage % 100);
+            }
             break;
 
         case 2:     // percentage

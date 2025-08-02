@@ -293,30 +293,34 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
             break;
 
         case KEY_SIDE1:
-            uint8_t a = FREQUENCY_GetSortedIdxFromStepIdx(gTxVfo->STEP_SETTING);
-            if (a < STEP_N_ELEM - 1)
             {
-                gTxVfo->STEP_SETTING = FREQUENCY_GetStepIdxFromSortedIdx(a + 1);
+                uint8_t a = FREQUENCY_GetSortedIdxFromStepIdx(gTxVfo->STEP_SETTING);
+                if (a < STEP_N_ELEM - 1)
+                {
+                    gTxVfo->STEP_SETTING = FREQUENCY_GetStepIdxFromSortedIdx(a + 1);
+                }
+                if (IS_FREQ_CHANNEL(gTxVfo->CHANNEL_SAVE))
+                {
+                    gRequestSaveChannel = 1;
+                }
+                gVfoConfigureMode     = VFO_CONFIGURE;
+                gWasFKeyPressed = false;
             }
-            if (IS_FREQ_CHANNEL(gTxVfo->CHANNEL_SAVE))
-            {
-                gRequestSaveChannel = 1;
-            }
-            gVfoConfigureMode     = VFO_CONFIGURE;
-            gWasFKeyPressed = false;
             break;
         case KEY_SIDE2:
-            uint8_t b = FREQUENCY_GetSortedIdxFromStepIdx(gTxVfo->STEP_SETTING);
-            if (b > 0)
             {
-                gTxVfo->STEP_SETTING = FREQUENCY_GetStepIdxFromSortedIdx(b - 1);
+                uint8_t b = FREQUENCY_GetSortedIdxFromStepIdx(gTxVfo->STEP_SETTING);
+                if (b > 0)
+                {
+                    gTxVfo->STEP_SETTING = FREQUENCY_GetStepIdxFromSortedIdx(b - 1);
+                }
+                if (IS_FREQ_CHANNEL(gTxVfo->CHANNEL_SAVE))
+                {
+                    gRequestSaveChannel = 1;
+                }
+                gVfoConfigureMode     = VFO_CONFIGURE;
+                gWasFKeyPressed = false;
             }
-            if (IS_FREQ_CHANNEL(gTxVfo->CHANNEL_SAVE))
-            {
-                gRequestSaveChannel = 1;
-            }
-            gVfoConfigureMode     = VFO_CONFIGURE;
-            gWasFKeyPressed = false;
             break;
 #endif
 
