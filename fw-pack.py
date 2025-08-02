@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
-import crcmod
 import sys
 
 from itertools import cycle
-from binascii import hexlify
+from binascii import crc_hqx
 
 OBFUSCATION = [
         0x47, 0x22, 0xC0, 0x52, 0x5D, 0x57, 0x48, 0x94, 0xB1, 0x60, 0x60, 0xDB, 0x6F, 0xE3, 0x4C, 0x7C,
@@ -30,10 +29,8 @@ if len(version) < 16:
 
 packed = obfuscate(plain[:0x2000] + version + plain[0x2000:])
 
-crc = crcmod.predefined.Crc('xmodem')
-crc.update(packed)
-digest = crc.digest()
-digest = bytes([digest[1], digest[0]])
+digest = crc_hqx(packed, 0)
+digest = bytes([digest & 0xFF, digest >> 8 & 0xFF])
 
 open(sys.argv[4], 'wb').write(packed + digest)
 
